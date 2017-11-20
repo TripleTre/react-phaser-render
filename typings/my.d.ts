@@ -7,16 +7,11 @@ namespace JSX {
     rotation?: number;
     scale?: Phaser.Point;
     visible?: boolean;
-    worldAlpha?: number;
-    worldScale?: Phaser.Point;
-    worldTransform?: Phaser.Matrix;
-    worldRotation?: number;
-    worldVisible?: boolean;
     x: number;
     y: number;
   }
 
-  interface PIXIDisplayObjectContainerAttributes {
+  interface PIXIDisplayObjectContainerAttributes extends PIXIDisplayObjectAttributes {
     anchor?: Phaser.Point;
     blendMode?: number;
     exists?: boolean;
@@ -89,7 +84,7 @@ namespace JSX {
     PhaserComponentScaleMinMaxAttributes,
     PhaserComponentSmoothedAttributes,
     PIXIDisplayObjectContainerAttributes,
-    PIXIDisplayObjectAttributes {
+    DisplayObjectAsChild {
       assetKey: string;
     }
 
@@ -105,8 +100,28 @@ namespace JSX {
     PhaserComponentScaleMinMaxAttributes,
     PhaserComponentSmoothedAttributes,
     PIXIDisplayObjectContainerAttributes,
-    PIXIDisplayObjectAttributes {
+    DisplayObjectAsChild {
       assetKey: string;
+    }
+
+  interface PhaserGroupAttributes extends
+    PIXIDisplayObjectContainerAttributes,
+    PhaserComponentAngleAttributes,
+    PhaserComponentAutoCullAttributes,
+    PhaserComponentBoundsAttributes,
+    PhaserComponentFixedToCameraAttributes,
+    PhaserComponentCoreAttributes,
+    PhaserComponentLoadTextureAttributes,
+    PhaserComponentInputEnabledAttributes,
+    PhaserComponentLifeSpanAttributes,
+    PhaserComponentInWorld,
+    PhaserComponentScaleMinMaxAttributes,
+    PhaserComponentSmoothedAttributes,
+    DisplayObjectAsChild {
+      health?: number;
+      maxHealth?: number;
+      x?: number;
+      y?: number;
     }
 
   interface DisplayObjectAsChild {
@@ -116,12 +131,43 @@ namespace JSX {
     index?: number;
   }
 
+  interface PhaserAnimationAttributes {
+    delay?: number;
+    enableUpdate?: boolean;
+    frame?: number;
+    isFinished?: boolean;
+    isPaused?: boolean;
+    isPlaying?: boolean;
+    isReversed?: boolean;
+    killOnComplete?: boolean;
+    loop?: boolean;
+    loopCount?: number;
+    name?: string;
+    onComplete?: () => any;
+    onLoop?: () => any;
+    onStart?: () => any;
+    onUpdate?: () => any;
+    paused?: boolean;
+    reversed?: boolean;
+    speed?: number;
+    play?: boolean;
+    frameRate?: number;
+    /** 
+     * An array of numbers/strings that correspond to the frames to add to
+     * this animation and in which order. 
+     * e.g. [1, 2, 3] or ['run0', 'run1', run2]). 
+     * If null then all frames will be used. */
+    frames?: number[] | string[];
+    /** Are the given frames using numeric indexes (default) or strings? */
+    useNumericIndex?: boolean;
+  }
+
   interface IntrinsicElements {
     game: any;
     image: PhaserImageAttributes;
     sprite: PhaserSpriteAttributes;
-    group: any;
-    animation: any;
+    group: PhaserGroupAttributes;
+    animation: PhaserAnimationAttributes;
   }
 }
 

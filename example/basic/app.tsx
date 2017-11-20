@@ -55,7 +55,8 @@ class Game extends React.Component<ReactPhaser.GameProps, AppState> {
 
   render () {
     const { scale, anchor } = this.state
-    return <group>
+    return <group name='outter'>
+      <group name='inner'>
         <image
           x={0}
           y={-400}
@@ -72,9 +73,15 @@ class Game extends React.Component<ReactPhaser.GameProps, AppState> {
             play={true}
             frameRate={40}
             loop={true}
+            onStart={this.walkStartHandle}
             name={'walk'}></animation>
         </sprite>
       </group>
+    </group>
+  }
+
+  walkStartHandle () {
+    debugger
   }
 }
 

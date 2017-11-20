@@ -5,11 +5,14 @@ export default {
   },
 
   spriate: (sprite: Phaser.Sprite, child: any) => {
-    const { phaserType, props } = child
+    const { phaserType } = child
     if (phaserType === 'animation') {
-      const anim = sprite.animations.add(props.name)
-      if (props.play === true) {
-        anim.play(props.frameRate, props.loop, props.killOnComplete)
+      const props: JSX.PhaserAnimationAttributes = child.props
+      const {name, frames, frameRate, killOnComplete,
+            loop, useNumericIndex, play} = props
+      const anim = sprite.animations.add(name, frames, frameRate, loop, useNumericIndex)
+      if (play === true) {
+        anim.play(frameRate, loop, killOnComplete)
       }
     }
   }

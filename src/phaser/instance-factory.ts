@@ -24,6 +24,12 @@ function mixinGroupChildProps (instance: any, props: any) {
   })
 }
 
+/**
+ * 设置 Phaser 对象的属性
+ * @param instance 
+ * @param props 
+ * @param PROPS_CONFIG 
+ */
 function setPropsDirectly (instance, props, PROPS_CONFIG) {
   PROPS_CONFIG.forEach(key => {
     const value = props[key]
@@ -53,6 +59,13 @@ export default {
     return instance
   },
 
+  /** todo props 
+   * mask -> should be a child
+   * animation -> should be a child
+   * hitArea -> should be a child
+   * cropRect -> must call updateCrop after it's value changed
+   * shader -> undo
+   * */
   sprite: (props: any, internalInstanceHandle: Phaser.Game) => {
     let instance = new Phaser.Sprite(internalInstanceHandle, props.x, props.y, props.assetKey, props.frame)
     setPropsDirectly(instance, props, PhaserSpriteProps)
@@ -60,10 +73,19 @@ export default {
     return instance
   },
 
+  /** todo props 
+   * components
+   * cropRect
+   * events
+   * hitArea
+   * mask
+   * shader
+   * */
   group: (props: any, internalInstanceHandle: Phaser.Game) => {
     // todo handle remaining options arguments
     let instance = new Phaser.Group(internalInstanceHandle, undefined, props.name)
     mixinGroupChildProps(instance, props)
+    window[`__group${props.name}`] = instance
     return instance
   },
 

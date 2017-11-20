@@ -1,12 +1,13 @@
 export const PIXIDisplayObjectAttributes =
   ['alpha', 'cacheAsBitmap', 'pivot',
    'renderable', 'rotation', 'scale',
-   'visible', 'worldAlpha', 'worldScale',
-   'worldTransform', 'worldRotation', 'worldVisible',
-   'x', 'y']
+   'visible', 'x', 'y']
 
 export const PIXIDisplayObjectContainerAttributes =
   ['anchor', 'blendMode', 'exists', 'tint', 'ignoreChildInput']
+
+export const PhaserComponentInWorld =
+  ['checkWorldBounds', 'outOfBoundsKill', 'outOfCameraBoundsKill']
 
 export const PhaserComponentCoreAttributes =
   ['data', 'debug', 'exists',
@@ -70,3 +71,22 @@ export const PhaserSpriteProps =
     PIXIDisplayObjectContainerAttributes,
     PIXIDisplayObjectAttributes
   )
+
+export const PhaserGroupProps =
+  [].concat(
+    PIXIDisplayObjectContainerAttributes,
+    PhaserComponentAngleAttributes,
+    PhaserComponentAutoCullAttributes,
+    PhaserComponentBoundsAttributes,
+    PhaserComponentFixedToCameraAttributes,
+    PhaserComponentCoreAttributes,
+    PhaserComponentLoadTextureAttributes,
+    PhaserComponentInputEnabledAttributes,
+    PhaserComponentLifeSpanAttributes,
+    PhaserComponentInWorld,
+    PhaserComponentScaleMinMaxAttributes,
+    PhaserComponentSmoothedAttributes,
+    'health',
+    'maxHealth'
+  )
+
