@@ -1,5 +1,5 @@
 import React from 'react'
-// import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom'
 // import { Game } from 'react-phaser'
 import PhaserRender from '../../src/PhaserRender'
 import 'pixi'
@@ -28,29 +28,34 @@ const assets = {
 }
 
 interface AppState {
-  scale: Phaser.Point;
-  anchor: Phaser.Point;
-  show: boolean;
+  scale?: Phaser.Point;
+  anchor?: Phaser.Point;
+  show?: boolean;
+  play?: boolean;
 }
 
 class Game extends React.Component<ReactPhaser.GameProps, AppState> {
   constructor () {
     super();
     this.state = {
-      scale: new Phaser.Point(2, 2),
+      scale: new Phaser.Point(2, 1),
       anchor: new Phaser.Point(0, 0),
-      show: true
+      play: true,
+      show: false
     }
   }
 
   componentWillMount () {
-    console.log('componentWillMount')
     document.addEventListener('click', () => {
       this.setState(Object.assign(this.state, {
         scale: this.state.scale.invert(),
-        anchor: this.state.anchor.invert()
+        anchor: this.state.anchor.invert(),
+        play: !this.state.play,
+        show: true
       }))
+      console.log(this.state)
     })
+    window['__app__'] = this
   }
 
   render () {
@@ -64,14 +69,31 @@ class Game extends React.Component<ReactPhaser.GameProps, AppState> {
           anchor={anchor}
           assetKey={'thorn_lazur'}>
         </image>
-        <sprite x={200}
+        { this.state.show && 
+          <sprite
+          x={100}
           y={360}
           scale={new Phaser.Point(4, 4)}
           smoothed={false}
           assetKey={'mummy'}>
           <animation
             play={true}
-            frameRate={40}
+            frameRate={4}
+            loop={true}
+            onStart={this.walkStartHandle}
+            name={'walk'}></animation>
+        </sprite>
+        }
+        <sprite
+          x={200}
+          y={360}
+          scale={new Phaser.Point(4, 4)}
+          smoothed={false}
+          assetKey={'mummy'}>
+          <animation
+            ref={'ani'}
+            play={this.state.play}
+            frameRate={4}
             loop={true}
             onStart={this.walkStartHandle}
             name={'walk'}></animation>
@@ -81,7 +103,7 @@ class Game extends React.Component<ReactPhaser.GameProps, AppState> {
   }
 
   walkStartHandle () {
-    debugger
+    // debugger
   }
 }
 
@@ -118,3 +140,44 @@ r.render(
     width={800}
     height={600}
     assets={assets}/>, document.getElementById('app'))
+
+class G extends React.Component<any, any> {
+  componentDidMount () {
+    // r.render(
+    //   <Game
+    //     width={800}
+    //     height={600}
+    //     assets={assets}/>, document.getElementById('app'))
+  }
+
+  render () {
+    return null
+  }
+}
+
+class Foo extends React.Component<any, any> {
+  constructor () {
+    super()
+    this.state = {
+      foo: 'foo'
+    }
+  }
+
+  render () {
+    return (
+      <div onClick={this.click}>
+        <div>
+          <div>{this.props.children}</div>
+        </div>
+      </div>
+    )
+  }
+
+  click = () => {
+    this.setState({
+      foo: Math.random()
+    })
+  }
+}
+
+ReactDOM.render(<Foo><G /></Foo>, document.getElementById('foo'))

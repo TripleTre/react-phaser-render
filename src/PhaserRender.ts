@@ -1,35 +1,21 @@
 import ReactFiberReconciler from 'react-reconciler'
 import * as ReactDOMFrameScheduling from './ReactDOMFrameScheduling'
 import invariant from 'fbjs/lib/invariant'
-import {
-  isPhaserGame,
-  isPhaserGroup,
-  isPhaserSprite
-} from './type/type-guards'
-import InstanceFactory from './phaser/instance-factory'
-import updatePayload from './phaser/update-payload'
-import commitUpdate from './phaser/commit-update'
-import appendInitialChild from './phaser/append-initial-child'
+import Element from 'src/phaser/Element';
+import InstanceFactory from './phaser/InstanceFactory'
 
 type PhaserRender = {
   createContainer: any
 }
 
 const PhaserRender = ReactFiberReconciler({
-  appendInitialChild (parentInstance, child) {
-    if (isPhaserGroup(parentInstance)) {
-      appendInitialChild.group(parentInstance, child)
-      return
-    }
-    if (isPhaserSprite(parentInstance)) {
-      appendInitialChild.spriate(parentInstance, child)
-      return
-    }
+  appendInitialChild (parentInstance: Element<any, any>, child) {
+    parentInstance.appendChild(child)
   },
 
   createInstance(type, props, internalInstanceHandle) {
     invariant(typeof InstanceFactory[type] === 'function', `${type} is not a phaser object`)
-    return InstanceFactory[type](props, internalInstanceHandle)
+    return new InstanceFactory[type](internalInstanceHandle, props)
   },
 
   createTextInstance(text, rootContainerInstance, internalInstanceHandle) {
@@ -49,12 +35,9 @@ const PhaserRender = ReactFiberReconciler({
     // Noop
   },
 
-  prepareUpdate(domElement, type, oldProps, newProps) {
-    const fn = updatePayload[type]
-    if (fn) {
-      return fn(oldProps, newProps)
-    }
-    return void 0
+  prepareUpdate(element: Element<any, any>, type, oldProps, newProps) {
+    console.log('prepareUpdate')
+    return element.prepareUpdate(oldProps, newProps)
   },
 
   resetAfterCommit() {
@@ -98,17 +81,16 @@ const PhaserRender = ReactFiberReconciler({
     },
 
     appendChildToContainer(parentInstance, child) {
-      if (child.game === parentInstance && isPhaserGame(parentInstance)) {
-        parentInstance.world.add(child)
+      const { instance } = child
+      if (instance.game === parentInstance) {
+        parentInstance.world.add(instance)
+        return
       }
+      debugger
     },
 
-    insertBefore(parentInstance, child, beforeChild) {
-      invariant(
-        child !== beforeChild,
-        'ReactART: Can not insert node before itself',
-      );
-      child.injectBefore(beforeChild);
+    insertBefore(parentInstance: Element<any, any>, child, beforeChild) {
+      parentInstance.insertBefore(child, beforeChild)
     },
 
     insertInContainerBefore(parentInstance, child, beforeChild) {
@@ -141,8 +123,8 @@ const PhaserRender = ReactFiberReconciler({
       debugger
     },
 
-    commitUpdate(instance, updatePayload, type, oldProps, newProps) {
-      commitUpdate[type](instance, updatePayload, oldProps, newProps)
+    commitUpdate(instance: Element<any, any>, updatePayload, type, oldProps, newProps) {
+      instance.commitUpdate(updatePayload, oldProps, newProps)
     },
   }
 })

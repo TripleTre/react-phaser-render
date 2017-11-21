@@ -56,7 +56,7 @@ export const PhaserImageAttributes =
     PIXIDisplayObjectAttributes
   )
 
-export const PhaserSpriteProps =
+export const PhaserSpriteAttributes =
   [].concat(
     PhaserComponentCoreAttributes,
     PhaserComponentAngleAttributes,
@@ -72,7 +72,7 @@ export const PhaserSpriteProps =
     PIXIDisplayObjectAttributes
   )
 
-export const PhaserGroupProps =
+export const PhaserGroupAttributes =
   [].concat(
     PIXIDisplayObjectContainerAttributes,
     PhaserComponentAngleAttributes,

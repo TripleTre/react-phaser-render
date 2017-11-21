@@ -85,7 +85,7 @@ namespace JSX {
     PhaserComponentSmoothedAttributes,
     PIXIDisplayObjectContainerAttributes,
     DisplayObjectAsChild {
-      assetKey: string;
+      assetKey: ReactPhaser.AssetKey;
     }
 
   interface PhaserSpriteAttributes extends
@@ -101,7 +101,7 @@ namespace JSX {
     PhaserComponentSmoothedAttributes,
     PIXIDisplayObjectContainerAttributes,
     DisplayObjectAsChild {
-      assetKey: string;
+      assetKey: ReactPhaser.AssetKey;
     }
 
   interface PhaserGroupAttributes extends
@@ -132,6 +132,7 @@ namespace JSX {
   }
 
   interface PhaserAnimationAttributes {
+    ref?: string;
     delay?: number;
     enableUpdate?: boolean;
     frame?: number;
@@ -143,10 +144,10 @@ namespace JSX {
     loop?: boolean;
     loopCount?: number;
     name?: string;
-    onComplete?: () => any;
-    onLoop?: () => any;
-    onStart?: () => any;
-    onUpdate?: () => any;
+    onComplete?: (() => any) | {once: () => any};
+    onLoop?: (() => any) | {once: () => any};
+    onStart?: (() => any) | {once: () => any};
+    onUpdate?: (() => any) | {once: () => any};
     paused?: boolean;
     reversed?: boolean;
     speed?: number;
@@ -181,6 +182,12 @@ namespace ReactPhaser {
   interface AssetsConf {
     image: Array<AssetItem>;
   }
+
+  type AssetKey =
+    string |
+    Phaser.RenderTexture |
+    Phaser.BitmapData |
+    PIXI.Texture
 
   interface GameProps {
     width: number | string;
