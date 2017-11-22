@@ -1,5 +1,6 @@
-import Element from './Element'
 import { PhaserGroupAttributes } from './inherit'
+import invariant from 'fbjs/lib/invariant'
+import Element from './Element';
 
 /** todo props 
    * components
@@ -16,16 +17,14 @@ export default class GroupElement extends Element<Phaser.Group, JSX.PhaserGroupA
     super(props)
     this.instance = new Phaser.Group(game, undefined, props.name)
     this.propsToInstance(props, PhaserGroupAttributes)
+    window[`__group_${props.name}`] = this.instance
   }
 
   appendChild (child: Element<any, any>) {
     const instance = child.instance
-    let slient, index
-    if (instance.data) {
-      slient = instance.data.__asGroupChild.slient
-      index = instance.data.__asGroupChild.index
-    }
-    this.instance.add(instance, slient, index)
+    invariant(instance, `group 不支持${typeof child}类型子元素`)
+    console.log(this.index, child)
+    this.instance.add(instance, this.slient, child.index)
   }
 
   prepareUpdate (

@@ -90,3 +90,17 @@ export const PhaserGroupAttributes =
     'maxHealth'
   )
 
+export const PhaserAnimationAttributes =
+  ['delay', 'enableUpdate', 'frame', 'killOnComplete',
+   'loop', 'loopCount', 'name', 'paused', 'reversed',
+   'speed']
+
+export const PhaserTextAttributes =
+  ['align', 'autoRound', 'boundsAlignH', 'boundsAlignV',
+   'characterLimitSize', 'characterLimitSuffix',
+   'fill', 'font', 'fontSize', 'fontStyle', 'fontVariant',
+   'fontWeight', 'height', 'lineSpacing', 'padding',
+   'resolution', 'shadowBlur', 'shadowColor', 'shadowFill',
+   'shadowOffsetX', 'shadowOffsetY', 'shadowStroke',
+   'splitRegExp', 'stroke', 'strokeThickness', 'tabs',
+   'text', 'wordWrap', 'wordWrapWidth']

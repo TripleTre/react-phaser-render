@@ -1,4 +1,10 @@
 namespace JSX {
+  interface InernalAttributes {
+    children?: any[];
+    key?: any;
+    ref?: any;
+  }
+
   interface PIXIDisplayObjectAttributes {
     alpha?: number;
     cacheAsBitMap?: boolean;
@@ -84,7 +90,8 @@ namespace JSX {
     PhaserComponentScaleMinMaxAttributes,
     PhaserComponentSmoothedAttributes,
     PIXIDisplayObjectContainerAttributes,
-    DisplayObjectAsChild {
+    DisplayObjectAsChild,
+    InernalAttributes {
       assetKey: ReactPhaser.AssetKey;
     }
 
@@ -100,7 +107,8 @@ namespace JSX {
     PhaserComponentScaleMinMaxAttributes,
     PhaserComponentSmoothedAttributes,
     PIXIDisplayObjectContainerAttributes,
-    DisplayObjectAsChild {
+    DisplayObjectAsChild,
+    InernalAttributes {
       assetKey: ReactPhaser.AssetKey;
     }
 
@@ -117,7 +125,8 @@ namespace JSX {
     PhaserComponentInWorld,
     PhaserComponentScaleMinMaxAttributes,
     PhaserComponentSmoothedAttributes,
-    DisplayObjectAsChild {
+    DisplayObjectAsChild,
+    InernalAttributes {
       health?: number;
       maxHealth?: number;
       x?: number;
@@ -131,36 +140,94 @@ namespace JSX {
     index?: number;
   }
 
-  interface PhaserAnimationAttributes {
-    ref?: string;
-    delay?: number;
-    enableUpdate?: boolean;
-    frame?: number;
-    isFinished?: boolean;
-    isPaused?: boolean;
-    isPlaying?: boolean;
-    isReversed?: boolean;
-    killOnComplete?: boolean;
-    loop?: boolean;
-    loopCount?: number;
-    name?: string;
-    onComplete?: (() => any) | {once: () => any};
-    onLoop?: (() => any) | {once: () => any};
-    onStart?: (() => any) | {once: () => any};
-    onUpdate?: (() => any) | {once: () => any};
-    paused?: boolean;
-    reversed?: boolean;
-    speed?: number;
-    play?: boolean;
-    frameRate?: number;
-    /** 
-     * An array of numbers/strings that correspond to the frames to add to
-     * this animation and in which order. 
-     * e.g. [1, 2, 3] or ['run0', 'run1', run2]). 
-     * If null then all frames will be used. */
-    frames?: number[] | string[];
-    /** Are the given frames using numeric indexes (default) or strings? */
-    useNumericIndex?: boolean;
+  interface PhaserAnimationAttributes extends 
+    InernalAttributes,
+    DisplayObjectAsChild {
+      /** 以下属性用于直接给实例相应的属性赋值 */
+      delay?: number;
+      enableUpdate?: boolean;
+      frame?: number;
+      killOnComplete?: boolean;
+      loop?: boolean;
+      loopCount?: number;
+      name?: string;
+      paused?: boolean;
+      reversed?: boolean;
+      speed?: number;
+
+      /** 以下属性用于构造函数，或其他特殊情况 */
+      play?: boolean;
+      frameRate?: number;
+      onComplete?: (() => any) | {once: () => any};
+      onLoop?: (() => any) | {once: () => any};
+      onStart?: (() => any) | {once: () => any};
+      onUpdate?: (() => any) | {once: () => any};
+      /** 
+       * An array of numbers/strings that correspond to the frames to add to
+       * this animation and in which order. 
+       * e.g. [1, 2, 3] or ['run0', 'run1', run2]). 
+       * If null then all frames will be used. */
+      frames?: number[] | string[];
+      /** Are the given frames using numeric indexes (default) or strings? */
+      useNumericIndex?: boolean;
+  }
+
+  interface PhaserTextAtrributes extends PhaserSpriteAttributes {
+    align?: string;
+    autoRound?: boolean;
+    boundsAlignH?: 'left' | 'center' | 'right';
+    boundsAlignV?: 'top' | 'middle' | 'bottom';
+    characterLimitSize?: number;
+    characterLimitSuffix?: string;
+    fill?: string;
+    font?: string;
+    fontSize?: number | string;
+    fontStyle?: string;
+    fontVariant?: 'normal' | 'small-caps';
+    fontWeight?: 'normal' | 'bold' | 'bolder' | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+    height?: number;
+    lineSpacing?: number;
+    padding?: Phaser.Point;
+    resolution?: number;
+    shadowBlur?: number;
+    shadowColor?: string;
+    shadowFill?: boolean;
+    shadowOffsetX?: number;
+    shadowOffsetY?: number;
+    shadowStroke?: boolean;
+    splitRegExp?: RegExp;
+    stroke?: string;
+    strokeThickness?: number;
+    tabs?: number | number[];
+    text?: string;
+    wordWrap?: boolean;
+    wordWrapWidth?: number;
+    assetKey?: undefined;
+    style?: {
+      font?: string;
+      fontStyle?: string;
+      fontVariant?: string;
+      fontWeight?: string;
+      fontSize?: number;
+      backgroundColor?: string;
+      fill?: string;
+      align?: string;
+      boundsAlignH?: string;
+      boundsAlignV?: string;
+      stroke?: string;
+      strokeThickness?: number;
+      wordWrap?: boolean;
+      wordWrapWidth?: number;
+      maxLines?: number;
+      tabs?: number;
+    }
+  }
+
+  interface PhaserWorldAttributes extends DisplayObjectAsChild {
+    color?: string;
+    fontStyle?: string;
+    fontWeight?: 'normal' | 'bold' | 'bolder' | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+    strokeColor?: string;
   }
 
   interface IntrinsicElements {
@@ -169,6 +236,8 @@ namespace JSX {
     sprite: PhaserSpriteAttributes;
     group: PhaserGroupAttributes;
     animation: PhaserAnimationAttributes;
+    word: PhaserWorldAttributes;
+    text: PhaserTextAtrributes;
   }
 }
 

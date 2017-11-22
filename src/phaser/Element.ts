@@ -9,15 +9,21 @@ function equal (a, b) {
   return isEqual(a, b)
 }
 
-export default abstract class Element<T, P> {
+export default abstract class Element<T, P extends JSX.DisplayObjectAsChild> {
   abstract instance: T;
 
   abstract appendChild(child: any): any;
-  abstract prepareUpdate(oldProps: P, newProps: P): any;
+  // abstract prepareUpdate(oldProps: P, newProps: P): any;
   abstract commitUpdate(updatePayload: any[], oldProps: P, newProps: P): any;
   abstract insertBefore(child: Element<any, any>, beforeChild: Element<any, any>): any;
 
-  constructor (public props: P) {}
+  slient: boolean;
+  index: number;
+
+  constructor (public props: P) {
+    this.slient = props.slient
+    this.index = props.index
+  }
 
   propsToInstance (props: P, propsConf: any) {
     propsConf.forEach(key => {
@@ -31,7 +37,7 @@ export default abstract class Element<T, P> {
   isNormalPropKey (key: string) {
     const C: any = this.constructor
     return (key === 'children' || key === 'key' || key === 'ref') ||
-      C.SPECIAL_UPDATE_PROPS && C.SPECIAL_UPDATE_PROPS.indexOf(key) >= 0
+      (C.SPECIAL_UPDATE_PROPS && C.SPECIAL_UPDATE_PROPS.indexOf(key) >= 0)
   }
 
   diffProps (oldProps: P, newProps: P) {
@@ -64,5 +70,9 @@ export default abstract class Element<T, P> {
       }
     }
     return specialProps
+  }
+
+  prepareUpdate (oldProps: P, newProps: P) {
+    return this.diffProps(oldProps, newProps)
   }
 }

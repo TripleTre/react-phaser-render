@@ -19,8 +19,7 @@ const PhaserRender = ReactFiberReconciler({
   },
 
   createTextInstance(text, rootContainerInstance, internalInstanceHandle) {
-    debugger
-    return 'text, rootContainerInstance, internalInstanceHandle'
+    return text
   },
 
   finalizeInitialChildren(domElement, type, props) {
@@ -73,11 +72,8 @@ const PhaserRender = ReactFiberReconciler({
   useSyncScheduling: true,
 
   mutation: {
-    appendChild(parentInstance, child) {
-      if (child.parentNode === parentInstance) {
-        child.eject();
-      }
-      child.inject(parentInstance);
+    appendChild(parentInstance: Element<any, any>, child) {
+      parentInstance.appendChild(child)
     },
 
     appendChildToContainer(parentInstance, child) {

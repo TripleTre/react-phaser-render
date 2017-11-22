@@ -1,4 +1,5 @@
 import Element from './Element'
+import { PhaserAnimationAttributes } from './inherit'
 
 export default class AnimationElement extends Element<Phaser.Animation, JSX.PhaserAnimationAttributes>{
   static SPECIAL_UPDATE_PROPS =
@@ -28,15 +29,17 @@ export default class AnimationElement extends Element<Phaser.Animation, JSX.Phas
   appendChild () {}
 
   install (target: Phaser.Sprite) {
+    const events = ['onStart', 'onComplete', 'onLoop', 'onUpdate']
     const {name, frames, frameRate, killOnComplete,
       loop, useNumericIndex, play } = this.props
     this.instance = target.animations.add(name, frames, frameRate, loop, useNumericIndex)
+    this.propsToInstance(this.props, PhaserAnimationAttributes)
+    events
+      .map(v => this.props[v])
+      .forEach(this.addEventListener)
     if (play === true) {
       this.instance.play(frameRate, loop, killOnComplete)
     }
-    ['onStart', 'onComplete', 'onLoop', 'onUpdate']
-      .map(v => this.props[v])
-      .forEach(this.addEventListener)
   }
 
   prepareUpdate (

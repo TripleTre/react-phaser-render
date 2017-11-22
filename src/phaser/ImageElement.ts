@@ -1,5 +1,4 @@
 import { PhaserImageAttributes } from './inherit'
-import DisplayElement from './DisplayElement'
 import Element from './Element'
 
 /** todo props 
@@ -9,7 +8,7 @@ import Element from './Element'
    * cropRect -> must call updateCrop after it's value changed
    * shader -> undo
    * */
-export default class ImageElement extends DisplayElement<Phaser.Image, JSX.PhaserImageAttributes> {
+export default class ImageElement extends Element<Phaser.Image, JSX.PhaserImageAttributes> {
   static SPECIAL_UPDATE_PROPS = []
 
   instance: Phaser.Image;
@@ -19,19 +18,9 @@ export default class ImageElement extends DisplayElement<Phaser.Image, JSX.Phase
     const { x, y, assetKey, frame } = props
     this.instance = new Phaser.Image(game, x, y, assetKey, frame)
     this.propsToInstance(props, PhaserImageAttributes)
-    this.mixinGroupChildProps(props)
   }
 
-  appendChild (child: any) {
-    debugger
-  }
-
-  prepareUpdate (
-    oldProps: JSX.PhaserImageAttributes,
-    newProps: JSX.PhaserImageAttributes
-  ) {
-    return this.diffProps(oldProps, newProps)
-  }
+  appendChild (child: any) {}
 
   commitUpdate (
     updatePayload: any[],

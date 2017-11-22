@@ -178,7 +178,7 @@ namespace React {
         state: S;
         context: {};
         refs: {
-            [key: string]: ReactInstance
+            [key: string]: any
         };
     }
 

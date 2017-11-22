@@ -1,7 +1,7 @@
 import { PhaserSpriteAttributes } from './inherit'
-import DisplayElement from './DisplayElement'
 import AnimationElement from './AnimationElement'
 import Element from './Element'
+import warning from 'fbjs/lib/warning'
 
 /** todo props 
    * mask -> should be a child
@@ -10,7 +10,7 @@ import Element from './Element'
    * cropRect -> must call updateCrop after it's value changed
    * shader -> undo
    * */
-export default class SpriteElement extends DisplayElement<Phaser.Sprite, JSX.PhaserSpriteAttributes> {
+export default class SpriteElement extends Element<Phaser.Sprite, JSX.PhaserSpriteAttributes> {
   instance: Phaser.Sprite;
 
   constructor (game: Phaser.Game, props: JSX.PhaserSpriteAttributes) {
@@ -18,7 +18,6 @@ export default class SpriteElement extends DisplayElement<Phaser.Sprite, JSX.Pha
     const { x, y, assetKey, frame } = props
     this.instance = new Phaser.Sprite(game, x, y, assetKey, frame)
     this.propsToInstance(props, PhaserSpriteAttributes)
-    this.mixinGroupChildProps(props)
   }
 
   appendChild (child: any) {
@@ -26,7 +25,7 @@ export default class SpriteElement extends DisplayElement<Phaser.Sprite, JSX.Pha
       this.appendAnimation(child)
       return
     }
-    console.error(`Sprite 不支持 ${child} 类型子元素`)
+    warning(true, `Sprite 不支持 ${child} 类型子元素`)
   }
 
   appendAnimation (child: AnimationElement) {
