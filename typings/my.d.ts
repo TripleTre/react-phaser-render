@@ -158,10 +158,10 @@ namespace JSX {
       /** 以下属性用于构造函数，或其他特殊情况 */
       play?: boolean;
       frameRate?: number;
-      onComplete?: (() => any) | {once: () => any};
-      onLoop?: (() => any) | {once: () => any};
-      onStart?: (() => any) | {once: () => any};
-      onUpdate?: (() => any) | {once: () => any};
+      onComplete?: ((sprite, animation) => any) | {once: (sprite, animation) => any};
+      onLoop?: ((sprite, animation) => any) | {once: (sprite, animation) => any};
+      onStart?: ((sprite, animation) => any) | {once: (sprite, animation) => any};
+      onUpdate?: ((sprite, animation) => any) | {once: (sprite, animation) => any};
       /** 
        * An array of numbers/strings that correspond to the frames to add to
        * this animation and in which order. 
@@ -172,7 +172,7 @@ namespace JSX {
       useNumericIndex?: boolean;
   }
 
-  interface PhaserTextAtrributes extends PhaserSpriteAttributes {
+  interface PhaserTextAtrributes extends PhaserSpriteAttributes, InernalAttributes {
     align?: string;
     autoRound?: boolean;
     boundsAlignH?: 'left' | 'center' | 'right';
@@ -223,11 +223,12 @@ namespace JSX {
     }
   }
 
-  interface PhaserWorldAttributes extends DisplayObjectAsChild {
+  interface PhaserWorldAttributes extends DisplayObjectAsChild, InernalAttributes {
     color?: string;
     fontStyle?: string;
-    fontWeight?: 'normal' | 'bold' | 'bolder' | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+    fontWeight?: string;
     strokeColor?: string;
+    children?: any;
   }
 
   interface IntrinsicElements {
@@ -269,4 +270,21 @@ namespace ReactPhaser {
     antialias?: boolean;
     physicsConfig?: any;
   }
+
+  declare class Element<T, P> {
+    instance: T;
+    slient: boolean;
+    index: number;
+
+    appendChild(child: any): any;
+    commitUpdate(updatePayload: any[], oldProps: P, newProps: P): any;
+    insertBefore(child: Element<any, any>, beforeChild: Element<any, any>): any;
+    prepareUpdate(oldProps: P, newProps: P): any;
+    protected propsToInstance(props: P, propsConf: any): void;
+    protected isNormalPropKey(key: string): boolean;
+    protected diffProps(oldProps: p, newProps: P): any;
+    protected commitNormalProps(updatePayload: any[], oldProps: P, newProps: P): string[];
+  }
+
+  declare class GroupElement extends Element<Phaser.Group, JSX.PhaserGroupAttributes> {}
 }

@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-        "react-phaser": ["src"]
+        "react-phaser-render": ["src"]
     },
     "allowJs": true,
     "experimentalDecorators": true,

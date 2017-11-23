@@ -23,7 +23,6 @@ export default class GroupElement extends Element<Phaser.Group, JSX.PhaserGroupA
   appendChild (child: Element<any, any>) {
     const instance = child.instance
     invariant(instance, `group 不支持${typeof child}类型子元素`)
-    console.log(this.index, child)
     this.instance.add(instance, this.slient, child.index)
   }
 

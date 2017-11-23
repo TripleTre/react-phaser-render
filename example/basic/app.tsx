@@ -1,11 +1,8 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-// import { Game } from 'react-phaser'
-import PhaserRender from '../../src/PhaserRender'
+import { render } from 'react-phaser-render'
 import 'pixi'
 import 'p2'
 import * as Phaser from 'phaser-ce'
-import GroupElement from 'src/phaser/GroupElement';
 window['Phaser'] = Phaser
 
 const assets = {
@@ -29,167 +26,96 @@ const assets = {
 }
 
 interface AppState {
-  scale?: Phaser.Point;
-  anchor?: Phaser.Point;
-  show?: boolean;
+  texts?: string[];
   play?: boolean;
-  texts?: JSX.Element[];
+  x?: number;
 }
 
 class Game extends React.Component<ReactPhaser.GameProps, AppState> {
   refs: {
-    group: GroupElement
+    group: ReactPhaser.GroupElement,
+    anim: any
   }
 
   constructor () {
     super();
     this.state = {
-      scale: new Phaser.Point(2, 1),
-      anchor: new Phaser.Point(0, 0),
+      texts: [],
       play: true,
-      show: false
+      x: 0
     }
-    this.walkStartHandle = this.walkStartHandle.bind(this)
   }
 
-  componentWillMount () {
-    document.addEventListener('click', () => {
-      this.setState(Object.assign(this.state, {
-        scale: this.state.scale.invert(),
-        anchor: this.state.anchor.invert(),
-        play: !this.state.play,
-        show: true
-      }))
-      console.log(this.state)
-    })
-    window['__app__'] = this
+  componentDidMount () {
+    this.refs.group.instance.game.state.onUpdateCallback = () => {
+      if (this.refs.anim.instance.isPlaying) {
+        this.setState({
+          x: this.state.x - 1
+        })
+      }
+    }
   }
 
   render () {
-    const { scale, anchor } = this.state
-    return <group name='outter' ref='group'>
-      <text x={32} y={32} style={{ fill: 'red' }}>
-        text for
-      </text>
-      <sprite x={20} y={36} scale={new Phaser.Point(4, 4)}
-          smoothed={false} assetKey={'mummy'}>
-          <animation ref={'ani'} play={this.state.play} frameRate={4}
-            loop={true} onStart={this.walkStartHandle} name={'walk'}>
-          </animation>
-        </sprite>
-      <group name='inner' index={0}>
-        <image x={0} y={-400} scale={scale} anchor={anchor} assetKey={'thorn_lazur'}></image>
-        { this.state.show && 
-          <sprite x={100} y={360} scale={new Phaser.Point(4, 4)}
-            smoothed={false} assetKey={'mummy'}>
-              <animation play={true} frameRate={4} loop={true} 
-                onStart={this.walkStartHandle}
-                name={'walk'}>
-              </animation>
-        </sprite>
-        }
+    const { texts, x } = this.state
+    return <group ref='group' name='out'>
+      <group name='inner'>
+        <image x={x} y={-400} scale={new Phaser.Point(2, 2)} assetKey={'thorn_lazur'} smoothed={false}></image>
         <sprite x={200} y={360} scale={new Phaser.Point(4, 4)}
           smoothed={false} assetKey={'mummy'}>
-          <animation ref={'ani'} play={this.state.play} frameRate={4}
-            loop={true} onStart={this.walkStartHandle} name={'walk'}>
+          <animation
+            ref='anim'
+            play={this.state.play}
+            frameRate={5}
+            loop={true}
+            onStart={this.walkStartHandle}
+            onLoop={this.walkLoopHandle}
+            onComplete={this.walkStopHandle}
+            enableUpdate={true}
+            name={'walk'}>
           </animation>
         </sprite>
-        {this.state.texts}
+      </group>
+      <group>
+        {texts.map((v, index) => {
+          return <text x={32} y={(index + 1) * 32} fill='white' key={index}>
+            {v}
+            <word color='red'>{' ' + index}</word>
+          </text>
+        }
+        )}
       </group>
     </group>
   }
 
-  walkStartHandle () {
+  walkStartHandle = () => {
     this.setState({
-      texts: [
-        <sprite x={100} y={60} scale={new Phaser.Point(4, 4)} key={'0'}
-        smoothed={false} assetKey={'mummy'}>
-          <animation play={true} frameRate={4} loop={true} 
-            onStart={this.walkStartHandle}
-            name={'walk'}>
-          </animation>
-    </sprite>
-      ]
+      texts: ['Animation started']
+    })
+  }
+
+  walkLoopHandle = (sprite: Phaser.Sprite, animation: Phaser.Animation) => {
+    if (animation.loopCount === 1) {
+      this.setState({
+        texts: ['Animation started', 'Animation looped']
+      })
+    } else {
+      this.setState({
+        texts: ['Animation started', 'Animation looped x2'],
+        play: false
+      })
+    }
+  }
+
+  walkStopHandle = () => {
+    this.setState({
+      texts: ['Animation started', 'Animation looped x2', 'Animation stopped']
     })
   }
 }
 
-function loadAssets (game: Phaser.Game, assetsConf) {
-  game.load.crossOrigin = true
-  assetsConf.image.forEach(({path, key, file}) => {
-    // todo 是否每次都更改 path
-    game.load.path = path
-    game.load.image(key, file)
-  })
-  assetsConf.spritesheet.forEach(({path, key, file,
-    frameWidth, frameHeight, frameMax}) => {
-      game.load.path = path
-      game.load.spritesheet(key, file, frameWidth, frameHeight, frameMax)
-  })
-}
-
-const r = {
-  render (element, container) {
-    const game = new Phaser.Game(800, 600, container, 'app', {
-      preload: function () {
-        loadAssets(game, assets)
-        game.load.spritesheet('mummyy', 'https://examples.phaser.io/assets/sprites/metalslug_mummy37x45.png', 37, 45, 18);
-      },
-      create: function () {
-        const m = PhaserRender.createContainer(game)
-        PhaserRender.updateContainer(element, m, null)
-        game.add.plugin(Phaser.Plugin['Debug'])
-        // const text = game.add.text(32, 32, 'Animation startedAnimation startedAnimation startedAnimation startedAnimation startedAnimation startedAnimation startedAnimation startedAnimation startedAnimation startedAnimation started', { fill: 'white' })
-        // text.addColor('#aaccdd', 6)
-        // window['__text__'] = text
-      }
-    })
-    window['__game'] = game
-  }
-}
-r.render(
+render(
   <Game
     width={800}
     height={600}
     assets={assets}/>, document.getElementById('app'))
-
-class G extends React.Component<any, any> {
-  componentDidMount () {
-    // r.render(
-    //   <Game
-    //     width={800}
-    //     height={600}
-    //     assets={assets}/>, document.getElementById('app'))
-  }
-
-  render () {
-    return null
-  }
-}
-
-class Foo extends React.Component<any, any> {
-  constructor () {
-    super()
-    this.state = {
-      foo: 'foo'
-    }
-  }
-
-  render () {
-    return (
-      <div onClick={this.click}>
-        <div>
-          <div>{this.props.children}</div>
-        </div>
-      </div>
-    )
-  }
-
-  click = () => {
-    this.setState({
-      foo: Math.random()
-    })
-  }
-}
-
-ReactDOM.render(<Foo><G /></Foo>, document.getElementById('foo'))

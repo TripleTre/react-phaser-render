@@ -16,12 +16,12 @@ export default class AnimationElement extends Element<Phaser.Animation, JSX.Phas
     super(props)
   }
 
-  addEventListener = (listener: (() => any) | {once: () => any}) => {
+  addEventListener = ([type, listener]) => {
     if (listener) {
       if (typeof listener === 'function') {
-        this.instance.onStart.add(listener)
+        this.instance[type].add(listener)
       } else {
-        this.instance.onStart.addOnce(listener.once)
+        this.instance[type].addOnce(listener.once)
       }
     }
   }
@@ -35,7 +35,7 @@ export default class AnimationElement extends Element<Phaser.Animation, JSX.Phas
     this.instance = target.animations.add(name, frames, frameRate, loop, useNumericIndex)
     this.propsToInstance(this.props, PhaserAnimationAttributes)
     events
-      .map(v => this.props[v])
+      .map(v => [v, this.props[v]])
       .forEach(this.addEventListener)
     if (play === true) {
       this.instance.play(frameRate, loop, killOnComplete)
@@ -68,6 +68,6 @@ export default class AnimationElement extends Element<Phaser.Animation, JSX.Phas
   }
 
   insertBefore (child: Element<any, any>, beforeChild: Element<any, any>) {
-
+    debugger
   }
 }

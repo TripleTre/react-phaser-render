@@ -3,6 +3,7 @@ import * as ReactDOMFrameScheduling from './ReactDOMFrameScheduling'
 import invariant from 'fbjs/lib/invariant'
 import Element from 'src/phaser/Element';
 import InstanceFactory from './phaser/InstanceFactory'
+import InternalText from './phaser/InternalText'
 
 type PhaserRender = {
   createContainer: any
@@ -19,7 +20,7 @@ const PhaserRender = ReactFiberReconciler({
   },
 
   createTextInstance(text, rootContainerInstance, internalInstanceHandle) {
-    return text
+    return new InternalText(text)
   },
 
   finalizeInitialChildren(domElement, type, props) {
@@ -35,7 +36,6 @@ const PhaserRender = ReactFiberReconciler({
   },
 
   prepareUpdate(element: Element<any, any>, type, oldProps, newProps) {
-    console.log('prepareUpdate')
     return element.prepareUpdate(oldProps, newProps)
   },
 
@@ -110,8 +110,8 @@ const PhaserRender = ReactFiberReconciler({
     },
 
     commitTextUpdate(textInstance, oldText, newText) {
-      // Noop
-      debugger
+      textInstance.text = newText
+      textInstance.parent.rebuild()
     },
 
     commitMount(instance, type, newProps) {
