@@ -4,6 +4,7 @@ import invariant from 'fbjs/lib/invariant'
 import Element from 'src/phaser/Element';
 import InstanceFactory from './phaser/InstanceFactory'
 import InternalText from './phaser/InternalText'
+// import StateElement from './phaser/StateElement'
 
 type PhaserRender = {
   createContainer: any
@@ -76,13 +77,18 @@ const PhaserRender = ReactFiberReconciler({
       parentInstance.appendChild(child)
     },
 
-    appendChildToContainer(parentInstance, child) {
-      const { instance } = child
-      if (instance.game === parentInstance) {
-        parentInstance.world.add(instance)
-        return
-      }
-      debugger
+    appendChildToContainer(parentInstance: Phaser.Game, child: Element<any, any>) {
+      // const { instance, props } = child
+      // const { key } = props
+      // if (StateElement.isStateElement(child)) {
+      //   parentInstance.state.add(key, instance)
+      //   return
+      // }
+      // if (instance.game === parentInstance) {
+      //   parentInstance.world.add(instance)
+      //   return
+      // }
+      // debugger
     },
 
     insertBefore(parentInstance: Element<any, any>, child, beforeChild) {

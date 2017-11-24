@@ -26,6 +26,10 @@ export default class GroupElement extends Element<Phaser.Group, JSX.PhaserGroupA
     this.instance.add(instance, this.slient, child.index)
   }
 
+  appendInitialChild (child: Element<any, any>) {
+    this.appendChild(child)
+  }
+
   prepareUpdate (
     oldProps: JSX.PhaserGroupAttributes,
     newProps: JSX.PhaserGroupAttributes

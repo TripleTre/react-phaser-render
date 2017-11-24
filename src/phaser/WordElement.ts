@@ -20,6 +20,10 @@ export default class WordElement extends Element<Phaser.Text, JSX.PhaserWorldAtt
     })
   }
 
+  appendInitialChild (child: Element<any, any>) {
+    this.appendChild(child)
+  }
+
   commitUpdate (updatePayload: any[], oldProps: JSX.PhaserWorldAttributes, newProps: JSX.PhaserWorldAttributes) {
     this.props = newProps
     this.parent && this.parent.rebuild()

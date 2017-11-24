@@ -33,6 +33,10 @@ export default class TextElement extends Element<Phaser.Text, JSX.PhaserTextAtrr
     this.rebuild()
   }
 
+  appendInitialChild (child: Element<any, any>) {
+    this.appendChild(child)
+  }
+
   commitUpdate (
     updatePayload: any[],
     oldProps: JSX.PhaserTextAtrributes,

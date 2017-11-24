@@ -28,6 +28,8 @@ export default class AnimationElement extends Element<Phaser.Animation, JSX.Phas
 
   appendChild () {}
 
+  appendInitialChild () {}
+
   install (target: Phaser.Sprite) {
     const events = ['onStart', 'onComplete', 'onLoop', 'onUpdate']
     const {name, frames, frameRate, killOnComplete,

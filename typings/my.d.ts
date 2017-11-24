@@ -239,6 +239,7 @@ namespace JSX {
     animation: PhaserAnimationAttributes;
     word: PhaserWorldAttributes;
     text: PhaserTextAtrributes;
+    state: any;
   }
 }
 

@@ -1,11 +1,13 @@
 import React from 'react'
+// import ReactDom from 'react-dom'
 import { render } from 'react-phaser-render'
 import 'pixi'
 import 'p2'
-import * as Phaser from 'phaser-ce'
-window['Phaser'] = Phaser
+import * as PhaserCE from 'phaser-ce'
+import First from './first'
+window['Phaser'] = PhaserCE
 
-const assets = {
+const AssetsConf = {
   image: [
     {
       path: 'https://examples.phaser.io/assets/pics/',
@@ -25,97 +27,62 @@ const assets = {
   ]
 }
 
-interface AppState {
-  texts?: string[];
-  play?: boolean;
-  x?: number;
+interface IGame {
+  width?: number;
+  height?: number;
+  assets?: any;
 }
 
-class Game extends React.Component<ReactPhaser.GameProps, AppState> {
-  refs: {
-    group: ReactPhaser.GroupElement,
-    anim: any
-  }
-
-  constructor () {
-    super();
-    this.state = {
-      texts: [],
-      play: true,
-      x: 0
-    }
-  }
-
-  componentDidMount () {
-    this.refs.group.instance.game.state.onUpdateCallback = () => {
-      if (this.refs.anim.instance.isPlaying) {
-        this.setState({
-          x: this.state.x - 1
-        })
-      }
-    }
-  }
-
-  render () {
-    const { texts, x } = this.state
-    return <group ref='group' name='out'>
-      <group name='inner'>
-        <image x={x} y={-400} scale={new Phaser.Point(2, 2)} assetKey={'thorn_lazur'} smoothed={false}></image>
-        <sprite x={200} y={360} scale={new Phaser.Point(4, 4)}
-          smoothed={false} assetKey={'mummy'}>
-          <animation
-            ref='anim'
-            play={this.state.play}
-            frameRate={5}
-            loop={true}
-            onStart={this.walkStartHandle}
-            onLoop={this.walkLoopHandle}
-            onComplete={this.walkStopHandle}
-            enableUpdate={true}
-            name={'walk'}>
-          </animation>
-        </sprite>
-      </group>
-      <group>
-        {texts.map((v, index) => {
-          return <text x={32} y={(index + 1) * 32} fill='white' key={index}>
-            {v}
-            <word color='red'>{' ' + index}</word>
-          </text>
-        }
-        )}
-      </group>
-    </group>
-  }
-
-  walkStartHandle = () => {
-    this.setState({
-      texts: ['Animation started']
-    })
-  }
-
-  walkLoopHandle = (sprite: Phaser.Sprite, animation: Phaser.Animation) => {
-    if (animation.loopCount === 1) {
-      this.setState({
-        texts: ['Animation started', 'Animation looped']
-      })
-    } else {
-      this.setState({
-        texts: ['Animation started', 'Animation looped x2'],
-        play: false
-      })
-    }
-  }
-
-  walkStopHandle = () => {
-    this.setState({
-      texts: ['Animation started', 'Animation looped x2', 'Animation stopped']
-    })
-  }
+function loadAssets (game: Phaser.Game | Phaser.State, assetsConf) {
+  game.load.crossOrigin = true
+  assetsConf.image.forEach(({path, key, file}) => {
+    // todo 是否每次都更改 path
+    game.load.path = path
+    game.load.image(key, file)
+  })
+  assetsConf.spritesheet.forEach(({path, key, file,
+    frameWidth, frameHeight, frameMax}) => {
+      game.load.path = path
+      game.load.spritesheet(key, file, frameWidth, frameHeight, frameMax)
+  })
 }
+
+function firstPreload (state: Phaser.State) {
+  debugger
+  loadAssets(state, AssetsConf)
+}
+
+function firstCreate (state: Phaser.State) {
+  console.log(state)
+}
+
+function App({
+  width = 800,
+  height = 600,
+  assets = AssetsConf
+}: IGame) {
+  return (
+    <game
+      width={800}
+      height={600}
+      assets={AssetsConf}>
+        <state
+          name='first'
+          preload={firstPreload}
+          create={firstCreate} component={First} default/>
+        <state name='second' component={First} />
+    </game>
+  )
+}
+
+// const config = {
+//   width: 800,
+//   height: 600,
+//   renderer: Phaser.AUTO,
+//   antialias: true
+// }
 
 render(
-  <Game
+  <App
     width={800}
-    height={600}
-    assets={assets}/>, document.getElementById('app'))
+    height={600}/>, document.getElementById('app'))

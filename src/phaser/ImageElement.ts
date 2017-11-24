@@ -22,6 +22,10 @@ export default class ImageElement extends Element<Phaser.Image, JSX.PhaserImageA
 
   appendChild (child: any) {}
 
+  appendInitialChild (child: Element<any, any>) {
+    this.appendChild(child)
+  }
+
   commitUpdate (
     updatePayload: any[],
     oldProps: JSX.PhaserImageAttributes,

@@ -13,6 +13,7 @@ export default abstract class Element<T, P extends JSX.DisplayObjectAsChild> {
   abstract instance: T;
 
   abstract appendChild(child: any): any;
+  abstract appendInitialChild(child: any): any;
   abstract commitUpdate(updatePayload: any[], oldProps: P, newProps: P): any;
   abstract insertBefore(child: Element<any, any>, beforeChild: Element<any, any>): any;
 

@@ -4,6 +4,8 @@ import GroupElement from './GroupElement'
 import AnimationElement from './AnimationElement'
 import WordElement from './WordElement'
 import TextElement from './TextElement'
+import StateElement from './StateElement'
+import GameElement from './GameElement'
 
 export default {
   image: ImageElement,
@@ -11,5 +13,7 @@ export default {
   group: GroupElement,
   animation: AnimationElement,
   word: WordElement,
-  text: TextElement
+  text: TextElement,
+  state: StateElement,
+  game: GameElement
 }

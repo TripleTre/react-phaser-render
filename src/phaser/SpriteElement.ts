@@ -28,6 +28,10 @@ export default class SpriteElement extends Element<Phaser.Sprite, JSX.PhaserSpri
     warning(true, `Sprite 不支持 ${child} 类型子元素`)
   }
 
+  appendInitialChild (child: Element<any, any>) {
+    this.appendChild(child)
+  }
+
   appendAnimation (child: AnimationElement) {
     child.install(this.instance)
   }
