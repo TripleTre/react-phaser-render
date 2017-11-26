@@ -27,12 +27,6 @@ const AssetsConf = {
   ]
 }
 
-interface IGame {
-  width?: number;
-  height?: number;
-  assets?: any;
-}
-
 function loadAssets (game: Phaser.Game | Phaser.State, assetsConf) {
   game.load.crossOrigin = true
   assetsConf.image.forEach(({path, key, file}) => {
@@ -48,7 +42,6 @@ function loadAssets (game: Phaser.Game | Phaser.State, assetsConf) {
 }
 
 function firstPreload (state: Phaser.State) {
-  debugger
   loadAssets(state, AssetsConf)
 }
 
@@ -56,23 +49,21 @@ function firstCreate (state: Phaser.State) {
   console.log(state)
 }
 
-function App({
-  width = 800,
-  height = 600,
-  assets = AssetsConf
-}: IGame) {
-  return (
-    <game
-      width={800}
-      height={600}
-      assets={AssetsConf}>
-        <state
-          name='first'
-          preload={firstPreload}
-          create={firstCreate} component={First} default/>
-        <state name='second' component={First} />
-    </game>
-  )
+class App extends React.Component<any, any> {
+  render () {
+    return (
+      <game config={{
+        width: 800,
+        height: 600
+      }}>
+          <state
+            name='first'
+            preload={firstPreload}
+            create={firstCreate} component={First} default/>
+          <state name='second' component={First} />
+      </game>
+    ) 
+  }
 }
 
 // const config = {
@@ -83,6 +74,4 @@ function App({
 // }
 
 render(
-  <App
-    width={800}
-    height={600}/>, document.getElementById('app'))
+  <App />, document.getElementById('app'))

@@ -4,6 +4,7 @@ import invariant from 'fbjs/lib/invariant'
 import Element from 'src/phaser/Element';
 import InstanceFactory from './phaser/InstanceFactory'
 import InternalText from './phaser/InternalText'
+import GameElement from './phaser/GameElement';
 // import StateElement from './phaser/StateElement'
 
 type PhaserRender = {
@@ -110,9 +111,11 @@ const PhaserRender = ReactFiberReconciler({
     },
 
     removeChildFromContainer(parentInstance, child) {
+      if (GameElement.isGameElement(child)) {
+        child.instance.destroy()
+        return
+      }
       debugger
-      // destroyEventListeners(child);
-      child.eject();
     },
 
     commitTextUpdate(textInstance, oldText, newText) {

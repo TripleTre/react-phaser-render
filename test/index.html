@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="http://localhost:1987/node_modules/mocha/mocha.css">
+    <script src="http://localhost:1987/node_modules/mocha/mocha.js"></script>
+    <script src="http://localhost:1987/node_modules/phaser-ce/build/custom/p2.js"></script>
+    <script src="http://localhost:1987/node_modules/phaser-ce/build/custom/pixi.js"></script>
+    <script src="http://localhost:1987/node_modules/phaser-ce/build/custom/phaser-split.js"></script>
+    <script>
+      mocha.setup('bdd')
+    </script>
+</head>
+<body>
+    <div id="app"></div>
+    <div id="mocha"></div>
+    <script src="http://localhost:1987/basic.js"></script>
+    <script>mocha.run()</script>
+</body>
+</html>

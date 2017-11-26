@@ -5,6 +5,29 @@ namespace JSX {
     ref?: any;
   }
 
+  interface PhaserGameAttributes {
+    config: any;
+    width?: number;
+    height?: number;
+  }
+
+  interface PhaserStateAttributes {
+    name: string;
+    component: JSX.Element | React.component;
+    preload?: (state: Phaser.State) => any;
+    update?: (state: Phaser.State) => any;
+    create?: (state: Phaser.State) => any;
+    loadUpdate?: (state: Phaser.State) => any;
+    loadRender?: (state: Phaser.State) => any;
+    preRender?: (state: Phaser.State) => any;
+    render?: (state: Phaser.State) => any;
+    paused?: (state: Phaser.State) => any;
+    pauseUpdate?: (state: Phaser.State) => any;
+    resumed?: (state: Phaser.State) => any;
+    shutdown?: (state: Phaser.State) => any;
+    default?: boolean;
+  }
+
   interface PIXIDisplayObjectAttributes {
     alpha?: number;
     cacheAsBitMap?: boolean;
@@ -232,14 +255,14 @@ namespace JSX {
   }
 
   interface IntrinsicElements {
-    game: any;
+    game: PhaserGameAttributes;
     image: PhaserImageAttributes;
     sprite: PhaserSpriteAttributes;
     group: PhaserGroupAttributes;
     animation: PhaserAnimationAttributes;
     word: PhaserWorldAttributes;
     text: PhaserTextAtrributes;
-    state: any;
+    state: PhaserStateAttributes;
   }
 }
 
@@ -289,3 +312,5 @@ namespace ReactPhaser {
 
   declare class GroupElement extends Element<Phaser.Group, JSX.PhaserGroupAttributes> {}
 }
+
+declare var __DEV__: boolean

@@ -7,14 +7,12 @@ export default class GameElement extends Element<Phaser.Game, any> {
     return obj.constructor === GameElement
   }
 
-  reactRoot: any;
+  // reactRoot: any;
   instance: Phaser.Game;
 
   constructor (container: any, props: any) {
     super(props)
-    const { width, height } = props
-    this.instance = new Phaser.Game(width, height)
-    this.reactRoot = container
+    this.instance = new Phaser.Game(props)
   }
 
   appendInitialChild (child: any) {
@@ -30,10 +28,10 @@ export default class GameElement extends Element<Phaser.Game, any> {
   }
 
   commitUpdate (updatePayload: any[], oldProps, newProps) {
-    debugger
+    this.commitNormalProps(updatePayload, oldProps, newProps)
   }
 
   insertBefore (child: Element<any, any>, beforeChild: Element<any, any>) {
-    debugger
+    this.appendChild(child)
   }
 }
