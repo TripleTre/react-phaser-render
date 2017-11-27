@@ -1,10 +1,12 @@
 import PhaserRender from './PhaserRender'
 
+let cont = null
+
 export function render (element, container) {
-  const m = PhaserRender.createContainer(element)
-  PhaserRender.updateContainer(element, m, null)
+  cont = PhaserRender.createContainer(container)
+  PhaserRender.updateContainer(element, cont, null)
 }
 
 export function unmount () {
-  PhaserRender.updateContainer(null, PhaserRender.createContainer(null), null)
+  PhaserRender.updateContainer(null, cont, null)
 }

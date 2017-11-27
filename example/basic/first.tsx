@@ -8,7 +8,7 @@ interface IFirstState {
 
 export default class FirstState extends React.Component<IFirstState, any> {
   refs: {
-    group: ReactPhaser.GroupElement,
+    group: any,
     anim: any
   }
 

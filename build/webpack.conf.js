@@ -7,6 +7,10 @@ var phaser = path.join(phaserModule, 'build/custom/phaser-split.js')
 var pixi = path.join(phaserModule, 'build/custom/pixi.js')
 var p2 = path.join(phaserModule, 'build/custom/p2.js')
 
+function resolve (dir) {
+  return path.join(__dirname, '..', dir)
+}
+
 module.exports = {
   resolve: {
     extensions: ['.js', '.ts', '.tsx'],
@@ -14,7 +18,7 @@ module.exports = {
       phaser: phaser,
       pixi: pixi,
       p2: p2,
-      'react-phaser-render': path.resolve(__dirname, '../src')
+      'react-phaser-render': resolve('src/index.ts')
     }
   },
   entry: {

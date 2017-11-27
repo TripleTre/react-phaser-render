@@ -1,11 +1,29 @@
 import ReactFiberReconciler from 'react-reconciler'
 import * as ReactDOMFrameScheduling from './ReactDOMFrameScheduling'
 import invariant from 'fbjs/lib/invariant'
-import Element from 'src/phaser/Element';
-import InstanceFactory from './phaser/InstanceFactory'
-import InternalText from './phaser/InternalText'
-import GameElement from './phaser/GameElement';
-// import StateElement from './phaser/StateElement'
+import {
+  ImageElement,
+  SpriteElement,
+  GroupElement,
+  AnimationElement,
+  WordElement,
+  TextElement,
+  StateElement,
+  GameElement,
+  InternalText,
+  Element
+} from './phaser-element/index'
+
+const InstanceFactory = {
+  image: ImageElement,
+  sprite: SpriteElement,
+  group: GroupElement,
+  animation: AnimationElement,
+  word: WordElement,
+  text: TextElement,
+  state: StateElement,
+  game: GameElement
+}
 
 type PhaserRender = {
   createContainer: any
@@ -134,6 +152,7 @@ const PhaserRender = ReactFiberReconciler({
   }
 })
 
-console.log(PhaserRender)
+GameElement.registerPhaserRender(PhaserRender)
+StateElement.registerPhaserRender(PhaserRender)
 
 export default PhaserRender

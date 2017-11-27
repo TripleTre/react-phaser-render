@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "node build/dev-server.js",
-    "test": "BABEL_ENV=test jest"
+    "test": "node build/test-server.js"
   },
   "repository": "https://github.com/huaguhzheng/react--phaser.git",
   "author": "赵巍 <huaguzheng2007@126.com>",

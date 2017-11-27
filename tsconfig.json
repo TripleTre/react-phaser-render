@@ -2,9 +2,6 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
-    "paths": {
-        "react-phaser-render": ["src"]
-    },
     "allowJs": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,

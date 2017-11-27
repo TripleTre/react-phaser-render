@@ -9,7 +9,6 @@ export default class AnimationElement extends Element<Phaser.Animation, JSX.Phas
     return obj.constructor === AnimationElement
   }
 
-  public props: JSX.PhaserAnimationAttributes
   public instance: Phaser.Animation
 
   constructor (game: Phaser.Game, props: JSX.PhaserAnimationAttributes) {

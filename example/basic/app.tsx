@@ -1,6 +1,6 @@
 import React from 'react'
 // import ReactDom from 'react-dom'
-import { render } from 'react-phaser-render'
+import { render } from '../../src/index'
 import 'pixi'
 import 'p2'
 import * as PhaserCE from 'phaser-ce'
@@ -52,10 +52,9 @@ function firstCreate (state: Phaser.State) {
 class App extends React.Component<any, any> {
   render () {
     return (
-      <game config={{
-        width: 800,
-        height: 600
-      }}>
+      <game
+        width={800}
+        height={600}>
           <state
             name='first'
             preload={firstPreload}

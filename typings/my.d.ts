@@ -5,15 +5,31 @@ namespace JSX {
     ref?: any;
   }
 
-  interface PhaserGameAttributes {
-    config: any;
+  interface PhaserGameAttributes extends InernalAttributes {
     width?: number;
     height?: number;
+    renderer?: number;
+    transparent?: boolean;
+    antialias?: boolean;
+    physicsConfig?: any;
+    component?: JSX.Element | React.component;
+    preload?: (state: Phaser.Game) => any;
+    update?: (state: Phaser.Game) => any;
+    create?: (state: Phaser.Game) => any;
+    loadUpdate?: (state: Phaser.Game) => any;
+    loadRender?: (state: Phaser.Game) => any;
+    preRender?: (state: Phaser.Game) => any;
+    render?: (state: Phaser.Game) => any;
+    paused?: (state: Phaser.Game) => any;
+    pauseUpdate?: (state: Phaser.Game) => any;
+    resumed?: (state: Phaser.Game) => any;
+    shutdown?: (state: Phaser.Game) => any;
   }
 
-  interface PhaserStateAttributes {
+  interface PhaserStateAttributes extends InernalAttributes {
+    /** name 不可修改 */
     name: string;
-    component: JSX.Element | React.component;
+    component?: JSX.Element | React.component;
     preload?: (state: Phaser.State) => any;
     update?: (state: Phaser.State) => any;
     create?: (state: Phaser.State) => any;
@@ -295,22 +311,29 @@ namespace ReactPhaser {
     physicsConfig?: any;
   }
 
-  declare class Element<T, P> {
-    instance: T;
-    slient: boolean;
-    index: number;
+  // declare class Element<T, P> {
+  //   instance: T;
+  //   slient: boolean;
+  //   index: number;
+  //   props: P;
 
-    appendChild(child: any): any;
-    commitUpdate(updatePayload: any[], oldProps: P, newProps: P): any;
-    insertBefore(child: Element<any, any>, beforeChild: Element<any, any>): any;
-    prepareUpdate(oldProps: P, newProps: P): any;
-    protected propsToInstance(props: P, propsConf: any): void;
-    protected isNormalPropKey(key: string): boolean;
-    protected diffProps(oldProps: p, newProps: P): any;
-    protected commitNormalProps(updatePayload: any[], oldProps: P, newProps: P): string[];
-  }
+  //   appendChild(child: any): any;
+  //   commitUpdate(updatePayload: any[], oldProps: P, newProps: P): any;
+  //   insertBefore(child: Element<any, any>, beforeChild: Element<any, any>): any;
+  //   prepareUpdate(oldProps: P, newProps: P): any;
+  //   protected propsToInstance(props: P, propsConf: any): void;
+  //   protected isNormalPropKey(key: string): boolean;
+  //   protected diffProps(oldProps: p, newProps: P): any;
+  //   protected commitNormalProps(updatePayload: any[], oldProps: P, newProps: P): string[];
+  // }
 
-  declare class GroupElement extends Element<Phaser.Group, JSX.PhaserGroupAttributes> {}
+  // declare class GroupElement extends Element<Phaser.Group, JSX.PhaserGroupAttributes> {}
+
+  // declare class GameElement extends Element<Phaser.Game, JSX.PhaserGameAttributes> {}
+
+  // declare class StateElement extends Element<Phaser.State, JSX.PhaserStateAttributes> {
+  //   setGame(game: Phaser.Game): any;
+  // }
 }
 
 declare var __DEV__: boolean

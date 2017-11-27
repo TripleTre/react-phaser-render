@@ -2,7 +2,6 @@ var path = require('path')
 var express = require('express')
 var webpack = require('webpack')
 var webpackConfig = require('./test-conf')
-
 var app = express()
 var compiler = webpack(webpackConfig)
 
@@ -28,7 +27,7 @@ var readyPromise = new Promise(resolve => {
   _resolve = resolve
 })
 
-console.log('> Starting dev server...')
+console.log('> Starting test server...')
 devMiddleware.waitUntilValid(() => {
   console.log('> Listening at ' + uri + '\n')
   _resolve()

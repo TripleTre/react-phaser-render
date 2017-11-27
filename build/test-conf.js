@@ -13,13 +13,12 @@ module.exports = {
     alias: {
       phaser: phaser,
       pixi: pixi,
-      p2: p2,
-      'react-phaser-render': path.resolve(__dirname, '../src')
+      p2: p2
     }
   },
   entry: {
-    rp: './src/index.ts',
-    basic: './test/index.tsx'
+    test: './test/index.tsx',
+    rp: './src/index.ts'
   },
   output: {
     filename: '[name].js',
@@ -44,6 +43,23 @@ module.exports = {
   devtool: '#source-map',
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new FriendlyErrorsPlugin()
+    new FriendlyErrorsPlugin(),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks: function (module, count) {
+        // any required modules inside node_modules are extracted to vendor
+        return (
+          module.resource &&
+          /\.js$/.test(module.resource) &&
+          module.resource.indexOf(
+            path.join(__dirname, '../node_modules')
+          ) === 0
+        )
+      }
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'rp',
+      chunks: ['rp', 'test']
+    })
   ]
 }

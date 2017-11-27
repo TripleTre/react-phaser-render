@@ -1,8 +1,12 @@
-import {expect} from 'chai'
-import GameElement from '../../src/phaser/GameElement'
-import StateElement from '../../src/phaser/StateElement'
+import { expect } from 'chai'
+import {
+  GameElement,
+  StateElement
+} from '../../../src/phaser-element'
+import { delay } from '../../help'
 
-let gameElement: GameElement
+
+let gameElement
 let preload = false
 let create = false
 let update = false
@@ -12,32 +16,23 @@ const gameConf = {
   height: 1600,
   renderer: Phaser.AUTO,
   antialias: true,
-  multiTexture: true,
-  state: {
-      preload: () => {
-        preload = true
-      },
-      create: () => { create = true},
-      update: () => { update = true}
-  }
+  preload: () => {
+    preload = true
+  },
+  create: () => { create = true},
+  update: () => { update = true}
 }
 
-const delay = () => new Promise((resolve) => {
-  setTimeout(() => {
-    resolve()
-  }, 16)
-})
 declare var before, after
 describe('GameElment', () => {
   before(() => {
     gameElement = new GameElement(null, gameConf)
-    console.log(gameElement.instance.width)
-    window['__game'] = gameElement.instance
   })
 
   after(() => {
     gameElement.instance.destroy()
     gameElement = null
+    document.getElementById('app').innerHTML = ''
   })
 
   it('GameElment instance 属性是否正确', async () => {
@@ -47,7 +42,6 @@ describe('GameElment', () => {
     expect(game.width).to.be.equal(1800)
     expect(game.height).to.be.equal(1600)
     expect(game.antialias).to.be.true
-    expect(game['multiTexture']).to.be.true
   })
   it('Phaser.Game 生命周期函数是否调用', async () => {
     await delay()

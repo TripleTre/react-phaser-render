@@ -1,18 +1,22 @@
 import { createElement } from 'react'
 import Element from './Element'
-import PhaserRender from '../PhaserRender'
+import { isString, isFunction } from 'lodash'
+import warning from 'fbjs/lib/warning'
 
 export default class StateElement extends Element<any, any>{
+  private static PhaserRender: any
+  static registerPhaserRender (render) {
+    StateElement.PhaserRender = render
+  }
   static isStateElement(obj: any): obj is StateElement {
     return obj.constructor === StateElement
   }
   
-  // reactRoot: any
   instance: any
+  game: Phaser.Game
 
-  constructor (reactRoot: any, props: any) {
+  constructor (foo: any, props: JSX.PhaserStateAttributes) {
     super(props)
-    // this.reactRoot = reactRoot
     this.instance = this.createState(props)
   }
 
@@ -22,7 +26,12 @@ export default class StateElement extends Element<any, any>{
     this.appendChild(child)
   }
 
-  commitUpdate () {}
+  commitUpdate (
+    updatePayload: any[],
+    oldProps: JSX.PhaserStateAttributes,
+    newProps: JSX.PhaserStateAttributes) {
+      warning(false, `state 没有响应式式属性。`)
+  }
 
   createState (props) {
     return class extends Phaser.State {
@@ -33,9 +42,12 @@ export default class StateElement extends Element<any, any>{
       create () {
         props.create && props.create.call(null, this)
         if (props.component) {
-          const container = PhaserRender.createContainer(this.game)
-          const childVDOM = createElement(props.component)
-          PhaserRender.updateContainer(childVDOM, container)
+          const container = StateElement.PhaserRender.createContainer(this.game)
+          let childVDOM = props.component
+          if (isString(props.component) || isFunction(props.component)) {
+            childVDOM = createElement(props.component)
+          }
+          StateElement.PhaserRender.updateContainer(childVDOM, container)
         }
       }
 
@@ -81,4 +93,8 @@ export default class StateElement extends Element<any, any>{
   }
 
   insertBefore () {}
+
+  setGame (g) {
+    this.game = g
+  }
 }

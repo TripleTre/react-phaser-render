@@ -6,14 +6,18 @@ import WordElement from './WordElement'
 import TextElement from './TextElement'
 import StateElement from './StateElement'
 import GameElement from './GameElement'
+import InternalText from './InternalText'
+import Element from './Element'
 
-export default {
-  image: ImageElement,
-  sprite: SpriteElement,
-  group: GroupElement,
-  animation: AnimationElement,
-  word: WordElement,
-  text: TextElement,
-  state: StateElement,
-  game: GameElement
+export {
+  ImageElement,
+  SpriteElement,
+  GroupElement,
+  AnimationElement,
+  WordElement,
+  TextElement,
+  StateElement,
+  GameElement,
+  InternalText,
+  Element
 }
