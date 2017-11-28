@@ -33,7 +33,5 @@ export default class ImageElement extends Element<Phaser.Image, JSX.PhaserImageA
       this.commitNormalProps(updatePayload, oldProps, newProps)
   }
 
-  insertBefore (child: Element<any, any>, beforeChild: Element<any, any>) {
-    
-  }
+  insertBefore (child: Element<any, any>, beforeChild: Element<any, any>) {}
 }

@@ -72,3 +72,5 @@ export default class AnimationElement extends Element<Phaser.Animation, JSX.Phas
     debugger
   }
 }
+
+// todo 删除 animation 元素时，移除监听器

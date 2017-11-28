@@ -5,6 +5,26 @@ namespace JSX {
     ref?: any;
   }
 
+  interface PhaserInputEventsAttributes {
+    onAddedToGroup?: (gameObject: any, group: Phaser.Group) => any;
+    onAnimationComplete?: (gameObject: any, animation: Phaser.Animation) => any;
+    onAnimationLoop?: (gameObject: any, animation: Phaser.Animation) => any;
+    onAnimationStart?: (gameObject: any, animation: Phaser.Animation) => any;
+    onDestroy?: (gameObject: any) => any;
+    onDragStart?: (gameObject: any, point: Phaser.Point, x: number, y: number) => any;
+    onDragStop?: (gameObject: any, point: Phaser.Point) => any;
+    onDragUpdate?: (gameObject: any, point: Phaser.Point, x: number, y: number, snapped: Phaser.Point, fromStart: boolean) => any;
+    onEnterBounds?: (gameObject: any) => any;
+    onInputDown?: (gameObject: any, point: Phaser.Point) => any;
+    onInputOut?: (gameObject: any, point: Phaser.Point) => any;
+    onInputOver?: (gameObject: any, point: Phaser.Point) => any;
+    onInputUp?: (gameObject: any, point: Phaser.Point, isOver: boolean) => any;
+    onKilled?: (gameObject: any) => any;
+    onOutOfBounds?: (gameObject: any) => any;
+    onRemovedFromGroup?: (gameObject: any, group: Phaser.Group) => any;
+    onRevived?: (gameObject: any) => any;
+  }
+
   interface PhaserGameAttributes extends InernalAttributes {
     width?: number;
     height?: number;

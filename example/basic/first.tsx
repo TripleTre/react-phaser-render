@@ -9,7 +9,8 @@ interface IFirstState {
 export default class FirstState extends React.Component<IFirstState, any> {
   refs: {
     group: any,
-    anim: any
+    anim: any,
+    image: Phaser.Image
   }
 
   constructor () {
@@ -29,13 +30,16 @@ export default class FirstState extends React.Component<IFirstState, any> {
         })
       }
     }
+    window['__image'] = this.refs.image
   }
 
   render () {
     const { texts, x } = this.state
     return <group ref='group' name='out'>
       <group name='inner'>
-        <image x={x} y={-400} scale={new Phaser.Point(2, 2)} assetKey={'thorn_lazur'} smoothed={false}></image>
+        <image inputEnabled={true}
+          
+          ref='image' x={x} y={-400} scale={new Phaser.Point(2, 2)} assetKey={'thorn_lazur'} smoothed={false}></image>
         <sprite x={200} y={360} scale={new Phaser.Point(4, 4)}
           smoothed={false} assetKey={'mummy'}>
           <animation

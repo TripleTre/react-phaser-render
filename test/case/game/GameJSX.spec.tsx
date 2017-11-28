@@ -35,7 +35,7 @@ describe('<game />', () => {
     }
     const app = document.getElementById('app')
     render(<G />, app)
-    await delay(30)
+    await delay(60)
     const group = _game.world.children[0] as Phaser.Group
     const image = group.children[0]
     expect(image).to.be.an.instanceof(Phaser.Image)
