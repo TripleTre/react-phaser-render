@@ -4,6 +4,7 @@ interface IFirstState {
   texts?: string[];
   play?: boolean;
   x?: number;
+  speed?: number;
 }
 
 export default class FirstState extends React.Component<IFirstState, any> {
@@ -17,20 +18,26 @@ export default class FirstState extends React.Component<IFirstState, any> {
     super();
     this.state = {
       texts: [],
-      play: true,
-      x: 0
+      play: 'play',
+      x: 0,
+      speed: 100
     }
   }
 
   componentDidMount () {
     this.refs.group.instance.game.state.onUpdateCallback = () => {
       if (this.refs.anim.instance.isPlaying) {
-        this.setState({
-          x: this.state.x - 1
-        })
+        // this.setState({
+        //   x: this.state.x - 1
+        // })
       }
     }
     window['__image'] = this.refs.image
+    window['__setSpeed'] = (speed) => {
+      this.setState({
+        speed
+      })
+    }
   }
 
   render () {
@@ -38,13 +45,12 @@ export default class FirstState extends React.Component<IFirstState, any> {
     return <group ref='group' name='out'>
       <group name='inner'>
         <image inputEnabled={true}
-          
           ref='image' x={x} y={-400} scale={new Phaser.Point(2, 2)} assetKey={'thorn_lazur'} smoothed={false}></image>
         <sprite x={200} y={360} scale={new Phaser.Point(4, 4)}
           smoothed={false} assetKey={'mummy'}>
           <animation
             ref='anim'
-            play={this.state.play}
+            state={this.state.play}
             frameRate={5}
             loop={true}
             onStart={this.walkStartHandle}
@@ -74,16 +80,16 @@ export default class FirstState extends React.Component<IFirstState, any> {
   }
 
   walkLoopHandle = (sprite: Phaser.Sprite, animation: Phaser.Animation) => {
-    if (animation.loopCount === 1) {
-      this.setState({
-        texts: ['Animation started', 'Animation looped']
-      })
-    } else {
-      this.setState({
-        texts: ['Animation started', 'Animation looped x2'],
-        play: false
-      })
-    }
+    // if (animation.loopCount < 10) {
+    //   this.setState({
+    //     texts: ['Animation started', 'Animation looped']
+    //   })
+    // } else {
+    //   this.setState({
+    //     texts: ['Animation started', 'Animation looped x' + animation.loopCount],
+    //     play: 'done'
+    //   })
+    // }
   }
 
   walkStopHandle = () => {

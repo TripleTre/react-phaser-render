@@ -1,7 +1,6 @@
 import { createElement } from 'react'
 import Element from './Element'
 import { isString, isFunction } from 'lodash'
-import warning from 'fbjs/lib/warning'
 
 export default class StateElement extends Element<any, any>{
   private static PhaserRender: any
@@ -26,11 +25,14 @@ export default class StateElement extends Element<any, any>{
     this.appendChild(child)
   }
 
+  prepareUpdate () {
+    return null
+  }
+
   commitUpdate (
     updatePayload: any[],
     oldProps: JSX.PhaserStateAttributes,
     newProps: JSX.PhaserStateAttributes) {
-      warning(false, `state 没有响应式式属性。`)
   }
 
   createState (props) {

@@ -16,6 +16,8 @@ function safeCal (fn, argment) {
 
 export default class GameElement extends Element<Phaser.Game, any> {
   private static PhaserRender: any
+  static SPECIAL_UPDATE_PROPS =
+    ['component']
   static registerPhaserRender (render) {
     GameElement.PhaserRender = render
   }
@@ -62,15 +64,7 @@ export default class GameElement extends Element<Phaser.Game, any> {
       },
       create: () => {
         safeCal(props.create, that.instance)
-        if (that.instance === undefined) {
-          debugger
-        }
-        const container = GameElement.PhaserRender.createContainer(that.instance)
-        let childVDOM = props.component
-        if (isString(props.component) || isFunction(props.component)) {
-          childVDOM = createElement(props.component)
-        }
-        GameElement.PhaserRender.updateContainer(childVDOM, container)
+        this.updateComponent(props.component)
       }
     }
     this.instance = new Phaser.Game(
@@ -98,7 +92,26 @@ export default class GameElement extends Element<Phaser.Game, any> {
   }
 
   commitUpdate (updatePayload: any[], oldProps, newProps) {
-    this.commitNormalProps(updatePayload, oldProps, newProps)
+    const spec = this.commitNormalProps(updatePayload, oldProps, newProps)
+    for (let i = 0, len = spec.length; i < len; i += 2) {
+      const key = spec[i]
+      if (key === 'component') {
+        this.updateComponent(newProps.component)
+      }
+    }
+  }
+
+  /**
+   * 处理 <game /> component 属性变化
+   */
+  updateComponent (component) {
+    const container = GameElement.PhaserRender.createContainer(this.instance)
+    if (isString(component) || isFunction(component)) {
+      component = createElement(component)
+    }
+    invariant(component.type === 'group', `<game /> component 属性必须以 <group /> 做为开始标签; 错误标签：<${component.type} />`)
+    debugger
+    GameElement.PhaserRender.updateContainer(component, container)
   }
 
   insertBefore (child: any, beforeChild: Element<any, any>) {

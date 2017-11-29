@@ -1,7 +1,7 @@
 import { isNil, isEqual } from 'lodash'
 
 function equal (a, b) {
-  if (a.constructor !== void 0
+  if (a && b && a.constructor !== void 0
       && a.constructor === b.constructor
       && typeof a.equals === 'function') {
       return a.equals(b)

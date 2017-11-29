@@ -31,16 +31,14 @@ export default class AnimationElement extends Element<Phaser.Animation, JSX.Phas
 
   install (target: Phaser.Sprite) {
     const events = ['onStart', 'onComplete', 'onLoop', 'onUpdate']
-    const {name, frames, frameRate, killOnComplete,
-      loop, useNumericIndex, play } = this.props
+    const {name, frames, frameRate,
+      loop, useNumericIndex } = this.props
     this.instance = target.animations.add(name, frames, frameRate, loop, useNumericIndex)
     this.propsToInstance(this.props, PhaserAnimationAttributes)
     events
       .map(v => [v, this.props[v]])
       .forEach(this.addEventListener)
-    if (play === true) {
-      this.instance.play(frameRate, loop, killOnComplete)
-    }
+    this.stateHandle(this.props)
   }
 
   prepareUpdate (
@@ -57,19 +55,24 @@ export default class AnimationElement extends Element<Phaser.Animation, JSX.Phas
       const specUpdatePayload = this.commitNormalProps(updatePayload, oldProps, newProps)
       for (let i = 0, len = specUpdatePayload.length; i < len; i += 2) {
         const key = specUpdatePayload[i]
-        const value = specUpdatePayload[i + 1]
-        if (key === 'play') {
-          if (value === true) {
-            this.instance.play(this.props.frameRate, this.props.loop, this.props.killOnComplete)
-          } else if (value === false) {
-            this.instance.complete()
-          }
+        // const value = specUpdatePayload[i + 1]
+        if (key === 'state') {
+          this.stateHandle(newProps)
         }
       }
   }
 
-  insertBefore (child: Element<any, any>, beforeChild: Element<any, any>) {
-    debugger
+  insertBefore (child: Element<any, any>, beforeChild: Element<any, any>) {}
+
+  stateHandle (props) {
+    const { state, frameRate, loop, killOnComplete } = props
+    if (state === 'play') {
+      this.instance.play(frameRate, loop, killOnComplete)
+    } else if (state === 'done') {
+      this.instance.complete()
+    } else if (state === 'paused') {
+      this.instance.paused = true
+    }
   }
 }
 

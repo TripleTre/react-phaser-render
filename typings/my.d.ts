@@ -1,4 +1,8 @@
 namespace JSX {
+  type EventsHandle =
+    ((sprite, animation) => any) |
+    ((sprite, animation) => any)[]
+
   interface InernalAttributes {
     children?: any[];
     key?: any;
@@ -203,24 +207,25 @@ namespace JSX {
     InernalAttributes,
     DisplayObjectAsChild {
       /** 以下属性用于直接给实例相应的属性赋值 */
-      delay?: number;
+      // delay?: number;
       enableUpdate?: boolean;
       frame?: number;
       killOnComplete?: boolean;
       loop?: boolean;
-      loopCount?: number;
       name?: string;
-      paused?: boolean;
+      state?: 'paused' | 'play' | 'done';
       reversed?: boolean;
-      speed?: number;
 
       /** 以下属性用于构造函数，或其他特殊情况 */
-      play?: boolean;
       frameRate?: number;
-      onComplete?: ((sprite, animation) => any) | {once: (sprite, animation) => any};
-      onLoop?: ((sprite, animation) => any) | {once: (sprite, animation) => any};
-      onStart?: ((sprite, animation) => any) | {once: (sprite, animation) => any};
-      onUpdate?: ((sprite, animation) => any) | {once: (sprite, animation) => any};
+      onComplete?: EventsHandle;
+      onCompleteOnce?: EventsHandle;
+      onLoop?: EventsHandle;
+      onLoopOnce?: EventsHandle;
+      onStart?: EventsHandle;
+      onStartOnce?: EventsHandle;
+      onUpdate?: EventsHandle;
+      onUpdateOnce?: EventsHandle;
       /** 
        * An array of numbers/strings that correspond to the frames to add to
        * this animation and in which order. 

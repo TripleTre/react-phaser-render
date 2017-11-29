@@ -81,4 +81,13 @@ describe('GameElment', () => {
     const game = gameElement.instance
     expect(game.state.states).to.haveOwnProperty('new')
   })
+  it('isGameElement', () => {
+    const game = new GameElement(document.createElement('div'), {})
+    const alias = GameElement
+    const gameAlias = new alias(document.createElement('div'), {})
+    const other = {}
+    expect(GameElement.isGameElement(game)).to.be.true
+    expect(GameElement.isGameElement(gameAlias)).to.be.true
+    expect(GameElement.isGameElement(other)).to.be.false
+  })
 })
