@@ -7,6 +7,7 @@ namespace JSX {
     children?: any[];
     key?: any;
     ref?: any;
+    hidden?: boolean;
   }
 
   interface PhaserInputEventsAttributes {

@@ -5,6 +5,8 @@ import 'pixi'
 import 'p2'
 import * as PhaserCE from 'phaser-ce'
 import First from './first'
+// import Dom from './Dom'
+
 window['Phaser'] = PhaserCE
 
 const AssetsConf = {
@@ -59,7 +61,6 @@ class App extends React.Component<any, any> {
             name='first'
             preload={firstPreload}
             create={firstCreate} component={First} default/>
-          <state name='second' component={First} />
       </game>
     ) 
   }
@@ -74,3 +75,5 @@ class App extends React.Component<any, any> {
 
 render(
   <App />, document.getElementById('app'))
+
+// ReactDom.render(<Dom />, document.getElementById('foo'))

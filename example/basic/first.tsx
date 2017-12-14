@@ -27,12 +27,11 @@ export default class FirstState extends React.Component<IFirstState, any> {
   componentDidMount () {
     this.refs.group.instance.game.state.onUpdateCallback = () => {
       if (this.refs.anim.instance.isPlaying) {
-        // this.setState({
-        //   x: this.state.x - 1
-        // })
+        this.setState({
+          x: this.state.x - 1
+        })
       }
     }
-    window['__image'] = this.refs.image
     window['__setSpeed'] = (speed) => {
       this.setState({
         speed
@@ -61,7 +60,7 @@ export default class FirstState extends React.Component<IFirstState, any> {
           </animation>
         </sprite>
       </group>
-      <group>
+      <group hidden={true}>
         {texts.map((v, index) => {
           return <text x={32} y={(index + 1) * 32} fill='white' key={index}>
             {v}
@@ -80,16 +79,16 @@ export default class FirstState extends React.Component<IFirstState, any> {
   }
 
   walkLoopHandle = (sprite: Phaser.Sprite, animation: Phaser.Animation) => {
-    // if (animation.loopCount < 10) {
-    //   this.setState({
-    //     texts: ['Animation started', 'Animation looped']
-    //   })
-    // } else {
-    //   this.setState({
-    //     texts: ['Animation started', 'Animation looped x' + animation.loopCount],
-    //     play: 'done'
-    //   })
-    // }
+    if (animation.loopCount === 1) {
+      this.setState({
+        texts: ['Animation started', 'Animation looped']
+      })
+    } else {
+      this.setState({
+        texts: ['Animation started', 'Animation looped x' + animation.loopCount],
+        play: 'done'
+      })
+    }
   }
 
   walkStopHandle = () => {

@@ -2,7 +2,6 @@ import Element from './Element'
 import { createElement } from 'react'
 import StateElement from './StateElement'
 import invariant from 'fbjs/lib/invariant'
-// import PhaserRender from '../PhaserRender'
 import {
   isString,
   isFunction
@@ -16,8 +15,8 @@ function safeCal (fn, argment) {
 
 export default class GameElement extends Element<Phaser.Game, any> {
   private static PhaserRender: any
-  static SPECIAL_UPDATE_PROPS =
-    ['component']
+  // static SPECIAL_UPDATE_PROPS =
+  //   ['component']
   static registerPhaserRender (render) {
     GameElement.PhaserRender = render
   }
@@ -92,13 +91,14 @@ export default class GameElement extends Element<Phaser.Game, any> {
   }
 
   commitUpdate (updatePayload: any[], oldProps, newProps) {
-    const spec = this.commitNormalProps(updatePayload, oldProps, newProps)
-    for (let i = 0, len = spec.length; i < len; i += 2) {
-      const key = spec[i]
-      if (key === 'component') {
-        this.updateComponent(newProps.component)
-      }
-    }
+    // const spec = 
+    this.commitNormalProps(updatePayload, oldProps, newProps)
+    // for (let i = 0, len = spec.length; i < len; i += 2) {
+    //   const key = spec[i]
+    //   if (key === 'component') {
+    //     this.updateComponent(newProps.component)
+    //   }
+    // }
   }
 
   /**
@@ -109,8 +109,6 @@ export default class GameElement extends Element<Phaser.Game, any> {
     if (isString(component) || isFunction(component)) {
       component = createElement(component)
     }
-    invariant(component.type === 'group', `<game /> component 属性必须以 <group /> 做为开始标签; 错误标签：<${component.type} />`)
-    debugger
     GameElement.PhaserRender.updateContainer(component, container)
   }
 

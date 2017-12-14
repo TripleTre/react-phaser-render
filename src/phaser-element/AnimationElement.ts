@@ -3,7 +3,7 @@ import { PhaserAnimationAttributes } from './inherit'
 
 export default class AnimationElement extends Element<Phaser.Animation, JSX.PhaserAnimationAttributes>{
   static SPECIAL_UPDATE_PROPS =
-    ['play']
+    ['state', 'frameRate']
 
   static isAnimationElement (obj: any): obj is AnimationElement {
     return obj.constructor === AnimationElement
@@ -55,9 +55,11 @@ export default class AnimationElement extends Element<Phaser.Animation, JSX.Phas
       const specUpdatePayload = this.commitNormalProps(updatePayload, oldProps, newProps)
       for (let i = 0, len = specUpdatePayload.length; i < len; i += 2) {
         const key = specUpdatePayload[i]
-        // const value = specUpdatePayload[i + 1]
+        const value = specUpdatePayload[i + 1]
         if (key === 'state') {
           this.stateHandle(newProps)
+        } else if (key === 'frameRate') {
+          this.instance.delay = 1000 / value
         }
       }
   }
