@@ -1,6 +1,6 @@
 import { PhaserGroupAttributes } from './inherit'
 import invariant from 'fbjs/lib/invariant'
-import Element from './Element';
+import Element from './Element'
 
 /** todo props 
    * components

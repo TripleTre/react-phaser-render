@@ -1,11 +1,9 @@
 import React from 'react'
-// import ReactDom from 'react-dom'
 import { render } from '../../src/index'
 import 'pixi'
 import 'p2'
 import * as PhaserCE from 'phaser-ce'
 import First from './first'
-// import Dom from './Dom'
 
 window['Phaser'] = PhaserCE
 
@@ -66,14 +64,5 @@ class App extends React.Component<any, any> {
   }
 }
 
-// const config = {
-//   width: 800,
-//   height: 600,
-//   renderer: Phaser.AUTO,
-//   antialias: true
-// }
-
 render(
   <App />, document.getElementById('app'))
-
-// ReactDom.render(<Dom />, document.getElementById('foo'))

@@ -5,6 +5,8 @@ interface IFirstState {
   play?: boolean;
   x?: number;
   speed?: number;
+  spriteX: number;
+  spriteY: number;
 }
 
 export default class FirstState extends React.Component<IFirstState, any> {
@@ -20,7 +22,9 @@ export default class FirstState extends React.Component<IFirstState, any> {
       texts: [],
       play: 'play',
       x: 0,
-      speed: 100
+      speed: 100,
+      spriteX: 200,
+      spriteY: 360
     }
   }
 
@@ -32,24 +36,30 @@ export default class FirstState extends React.Component<IFirstState, any> {
         })
       }
     }
-    window['__setSpeed'] = (speed) => {
-      this.setState({
-        speed
-      })
-    }
+    // setInterval(() => {
+    //   if (this.state.play === 'play') {
+    //     this.setState({
+    //       play: 'paused'
+    //     })
+    //   } else if (this.state.play === 'paused') {
+    //     this.setState({
+    //       play: 'play'
+    //     })
+    //   }
+    // }, 1000)
   }
 
   render () {
-    const { texts, x } = this.state
+    const { texts, x, spriteX, spriteY, play } = this.state
     return <group ref='group' name='out'>
       <group name='inner'>
         <image inputEnabled={true}
           ref='image' x={x} y={-400} scale={new Phaser.Point(2, 2)} assetKey={'thorn_lazur'} smoothed={false}></image>
-        <sprite x={200} y={360} scale={new Phaser.Point(4, 4)}
+        <sprite x={spriteX} y={spriteY} scale={new Phaser.Point(4, 4)}
           smoothed={false} assetKey={'mummy'}>
           <animation
             ref='anim'
-            state={this.state.play}
+            state={play}
             frameRate={5}
             loop={true}
             onStart={this.walkStartHandle}
@@ -60,15 +70,20 @@ export default class FirstState extends React.Component<IFirstState, any> {
           </animation>
         </sprite>
       </group>
-      <group hidden={true}>
+      <group
+        hidden={true}>
         {texts.map((v, index) => {
           return <text x={32} y={(index + 1) * 32} fill='white' key={index}>
             {v}
-            <word color='red'>{' ' + index}</word>
           </text>
         }
         )}
       </group>
+      { play === 'done' ? <group>
+        <text x={32} y={200} fill='white'>
+          with a <word color='#ffff00'>sprinkle</word> of <word color='#ff00ff'>pixi</word> dust
+        </text>
+      </group> : null }
     </group>
   }
 

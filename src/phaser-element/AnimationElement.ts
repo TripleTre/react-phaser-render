@@ -69,7 +69,11 @@ export default class AnimationElement extends Element<Phaser.Animation, JSX.Phas
   stateHandle (props) {
     const { state, frameRate, loop, killOnComplete } = props
     if (state === 'play') {
-      this.instance.play(frameRate, loop, killOnComplete)
+      if (this.instance.isPaused === true) {
+        this.instance.paused = false
+      } else if (this.instance.isFinished === true || this.instance.isPlaying === false) {
+        this.instance.play(frameRate, loop, killOnComplete)
+      }
     } else if (state === 'done') {
       this.instance.complete()
     } else if (state === 'paused') {
